@@ -58,3 +58,50 @@ export const getSingleUser = async (req: Request, res: Response) => {
     });
   }
 }
+
+export const updateUser = async (req: Request, res: Response) => {
+  try {
+    const {id} = req.params
+    const result = await userService.updateUserDb(req.body, id as string)
+    if (result.rowCount === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found!!",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: "User updated!!",
+      data: result.rows[0]
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error?.message,
+      error: error
+    });
+  }
+}
+
+export const deleteSingleUser = async (req: Request, res: Response) => {
+  try {
+    const {id} = req.params
+    const result = await userService.deleteSingleUserDb(id as string)
+    if (result.rowCount === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found!!"
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: "User deleted!!"
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error?.message,
+      error: error
+    });
+  }
+}

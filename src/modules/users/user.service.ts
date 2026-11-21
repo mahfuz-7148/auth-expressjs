@@ -25,3 +25,34 @@ export const getSingleUserDb = async (id: string) => {
    SELECT * FROM users WHERE id = $1
    `, [id])
 }
+
+export const updateUserDb = async (payload: any, id: string) => {
+  const { name, password, age, is_active } = payload;
+  const hashedPassword = password ? await bcrypt.hash(password, 10) : null;
+  const result = await pool.query(
+    `
+    UPDATE users 
+    SET
+    name = COALESCE($1, name),  
+    password = COALESCE($2, password),
+    age = COALESCE($3, age),
+    is_active = COALESCE($4, is_active),
+    updatedAt = NOW() 
+    WHERE id=$5 RETURNING *
+      `,
+    [name ?? null, hashedPassword, age ?? null, is_active ?? null, id],
+  );
+  if (result.rows[0]) {
+    delete result.rows[0].password;
+  }
+  return result;
+}
+
+export const deleteSingleUserDb = async (id: string) => {
+  return await pool.query(
+    `
+    DELETE FROM users WHERE id=$1  
+      `,
+    [id],
+  );
+}
