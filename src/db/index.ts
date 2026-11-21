@@ -1,7 +1,7 @@
 import {Pool} from "pg";
 import {config} from "../config";
 
-const pool = new Pool({
+export const pool = new Pool({
   connectionString: config.connection_string
 })
 // console.log(pool)
@@ -15,7 +15,7 @@ export const initDb = async () => {
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     age INT,
-    isActive BOOLEAN DEFAULT true,
+    is_active BOOLEAN DEFAULT true,
     createdAt TIMESTAMP DEFAULT NOW(),
     updatedAt TIMESTAMP DEFAULT NOW()
     )
