@@ -20,6 +20,18 @@ export const initDb = async () => {
     updatedAt TIMESTAMP DEFAULT NOW()
     )
  `)
+   await  pool.query(`
+    CREATE TABLE IF NOT EXISTS profile(
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID UNIQUE REFERENCES users(id) ON DELETE CASCADE,
+    bio TEXT,
+    address TEXT,
+    phone VARCHAR(255),
+    gender VARCHAR(255),
+    createdAt TIMESTAMP DEFAULT NOW(),
+    updatedAt TIMESTAMP DEFAULT NOW() 
+     )
+   `)
    console.log('database connected')
  } catch (err) {
    console.error(err)
