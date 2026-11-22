@@ -16,8 +16,9 @@ export const initDb = async () => {
     password VARCHAR(255) NOT NULL,
     age INT,
     is_active BOOLEAN DEFAULT true,
-    createdAt TIMESTAMP DEFAULT NOW(),
-    updatedAt TIMESTAMP DEFAULT NOW()
+    role VARCHAR(10) DEFAULT 'user' NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
     )
  `)
    await  pool.query(`
@@ -28,8 +29,8 @@ export const initDb = async () => {
     address TEXT,
     phone VARCHAR(255),
     gender VARCHAR(255),
-    createdAt TIMESTAMP DEFAULT NOW(),
-    updatedAt TIMESTAMP DEFAULT NOW() 
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
      )
    `)
    console.log('database connected')

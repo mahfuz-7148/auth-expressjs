@@ -3,17 +3,16 @@ import bcrypt from 'bcryptjs'
 import {pool} from "../../db";
 
 export const createUserDb = async (payload: IUser) => {
-  const {name, email, password, age} = payload
+  const {name, email, password, age, role} = payload
   const hashedPassword = await bcrypt.hash(password, 10)
   const result = await pool.query(`
-   INSERT INTO users(name, email, password, age)
-   VALUES($1, $2, $3, $4) RETURNING *
-  `, [name, email, hashedPassword, age])
+   INSERT INTO users(name, email, password, age, role)
+   VALUES($1, $2, $3, $4, COALESCE($5, 'user')) RETURNING *
+  `, [name, email, hashedPassword, age, role])
   // console.log(result)
   delete result.rows[0].password
   return result
 }
-
 export const getAllUserDb = async () => {
   return await pool.query(`
    SELECT * FROM users  
