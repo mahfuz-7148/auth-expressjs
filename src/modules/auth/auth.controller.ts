@@ -9,7 +9,7 @@ export const loginUser = async (req: Request, res: Response) => {
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
-      secure: true,
+      secure: process.env.NODE_ENV === "production", // dev: http, production: HTTPS-only
       path: '/',
       sameSite: 'lax'
     })

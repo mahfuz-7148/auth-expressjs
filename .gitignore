@@ -7,3 +7,4 @@
 /node_modules/.pnpm/undici-types@8.9.0/node_modules/undici-types/LICENSE
 /node_modules/.pnpm/undici-types@8.9.0/node_modules/undici-types/README.md
 .env
+logger.txt
